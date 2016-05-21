@@ -11,6 +11,22 @@ import UIKit
 
 let compressedFilePath = NSBundle.mainBundle().pathForResource("dark_road_small", ofType: "compressed")!
 
+class ImageDecompressor: NSOperation {
+    var inputPath: String?
+    var outputImage: UIImage?
+    override func main() {
+        guard let inputPath = inputPath else { return }
+        if let decompressData = Compressor.loadCompressedFile(inputPath) {
+            outputImage = UIImage(data: decompressData)
+        }
+    }
+}
 
+let decompOp = ImageDecompressor()
+decompOp.inputPath = compressedFilePath
+
+decompOp.start()
+
+decompOp.outputImage
 
 
